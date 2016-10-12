@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class Maze {
     private int n;                 // dimension of maze
@@ -14,6 +15,11 @@ public class Maze {
     private int passos = 0;
     private List<int[]> listaAberta = new ArrayList<>();
     private List<int[]> caminho = new ArrayList<>();
+    private int posBonusX;
+    private int posBonusY;
+    private int posTrapX;
+    private int posTrapY;
+    private int extra = 0;
 
     public Maze(int n) {
         this.n = n;
@@ -24,7 +30,35 @@ public class Maze {
         this.initialVisited = this.visited.clone();
     }
     
-    public boolean[][] getEast() {
+    private void generateTrap() {
+    	Random generator = new Random();
+    	posBonusX = generator.nextInt(this.n);
+    	posBonusY = generator.nextInt(this.n);
+    	StdDraw.setPenColor(StdDraw.GREEN);
+        StdDraw.filledCircle(posBonusX + 0.5, posBonusY + 0.5, 0.25);
+	}
+
+	private void generateBonus() {
+		Random generator = new Random();
+		posTrapX = generator.nextInt(this.n);
+		posTrapY = generator.nextInt(this.n);
+		StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.filledCircle(posTrapX + 0.5, posTrapY + 0.5, 0.25);
+	}
+	
+	private void checkForBonus(int x, int y){
+		if(posBonusX == x && posBonusY == y){
+			extra += 10;
+		}
+	}
+	
+	private void checkForTrap(int x, int y){
+		if(posTrapX == x && posTrapY == y){
+			extra -= 10;
+		}
+	}
+
+	public boolean[][] getEast() {
 		return east;
 	}
     
@@ -132,6 +166,7 @@ public class Maze {
     public void clear() {
     	this.visited = this.initialVisited.clone();
     	this.passos = 0;
+    	this.extra = 0;
     }
 
     // solve the maze using depth-first search
@@ -140,6 +175,8 @@ public class Maze {
         if (done || visited[x][y]) return;
         visited[x][y] = true;
         passos++;
+        checkForBonus(x, y);
+        checkForTrap(x, y);
         StdDraw.setPenColor(StdDraw.BLUE);
         StdDraw.filledCircle(x + 0.5, y + 0.5, 0.25);
         StdDraw.show();
@@ -331,21 +368,30 @@ public class Maze {
         Maze maze = new Maze(n);
         StdDraw.enableDoubleBuffering();
         maze.draw();
+        maze.generateBonus();
+        maze.generateTrap();
         StdDraw.pause(1000);
         maze.solve(1);
         System.out.println(maze.getPassos());
+        System.out.println(maze.extra);
         StdDraw.clear();
         StdDraw.show();
         maze.draw();
         maze.clear();
+        maze.generateBonus();
+        maze.generateTrap();
         maze.solve(0);
         System.out.println(maze.getPassos());
+        System.out.println(maze.extra);
         StdDraw.clear();
         StdDraw.show();
         maze.draw();
         maze.clear();
+        maze.generateBonus();
+        maze.generateTrap();
         maze.solve(2);
         System.out.println(maze.getPassos());
+        System.out.println(maze.extra);
     }
 
 }
