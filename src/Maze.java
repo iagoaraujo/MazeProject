@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class Maze {
     private int n;                 // dimension of maze
@@ -455,15 +454,19 @@ public class Maze {
 	}
     
     public void walk(int x, int y) {
-    	if (bonus[x][y] && hasBonusOrTraps) {
-        	bonus[x][y] = false;
-        	passos = passos - 10;
-        } else if (trap[x][y] && hasBonusOrTraps) {
-        	trap[x][y] = false;
-        	passos = passos + 5;
-        } else {
-        	passos++;
-        }
+    	if (hasBonusOrTraps) {
+			if (bonus[x][y]) {
+		    	bonus[x][y] = false;
+		    	passos = passos - 10;
+		    } else if (trap[x][y]) {
+		    	trap[x][y] = false;
+		    	passos = passos + 5;
+		    } else {
+		    	passos++;
+		    }
+    	} else {
+    		passos++;
+    	}
     }
 
     // a test client
@@ -487,7 +490,6 @@ public class Maze {
         maze.clear();
         maze.solve(2);
         System.out.println(maze.getPassos());
-        maze.hasBonusOrTraps = true;
         StdDraw.clear();
         StdDraw.show();
         maze.draw();
