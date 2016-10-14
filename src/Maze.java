@@ -221,7 +221,7 @@ public class Maze {
 
 
         // delete some random walls
-        for (int i = 0; i < 1500; i++) {
+        for (int i = 0; i < 800; i++) {
             int x = 1 + StdRandom.uniform(n-1);
             int y = 1 + StdRandom.uniform(n-1);
             north[x][y] = south[x][y+1] = false;
@@ -472,41 +472,55 @@ public class Maze {
     // a test client
     public static void main(String[] args) {
         int n = 40;
-        Maze maze = new Maze(n);
-        StdDraw.enableDoubleBuffering();
-        maze.draw();
-        StdDraw.pause(1000);
-        maze.solve(1);
-        System.out.println(maze.getPassos());
-        StdDraw.clear();
-        StdDraw.show();
-        maze.draw();
-        maze.clear();
-        maze.solve(0);
-        System.out.println(maze.getPassos());
-        StdDraw.clear();
-        StdDraw.show();
-        maze.draw();
-        maze.clear();
-        maze.solve(2);
-        System.out.println(maze.getPassos());
-        StdDraw.clear();
-        StdDraw.show();
-        maze.draw();
-        maze.clear();
-        maze.generateBonus();
-        maze.generateTrap();
-        maze.hasBonusOrTraps = true;
-        maze.solve(0);
-        System.out.println(maze.getPassos());
-        StdDraw.clear();
-        StdDraw.show();
-        maze.draw();
-        maze.clear();
-        maze.generateBonus();
-        maze.generateTrap();
-        maze.solve(1);
-        System.out.println(maze.getPassos());
+        for(int i = 0; i < 20; i++){
+	        Maze maze = new Maze(n);
+	        StdDraw.enableDoubleBuffering();
+	        maze.draw();
+	        maze.clear();
+	        StdDraw.pause(1000);
+	        maze.solve(1);
+	        System.out.print(maze.getPassos());
+	        System.out.print(",");
+	        
+	        StdDraw.clear();
+	        StdDraw.show();
+	        maze.draw();
+	        maze.clear();
+	        maze.solve(0);
+	        System.out.print(maze.getPassos());
+	        System.out.print(",");
+	        
+	        StdDraw.clear();
+	        StdDraw.show();
+	        maze.draw();
+	        maze.clear();
+	        maze.solve(2);
+	        System.out.print(maze.getPassos());
+	        System.out.print(",");
+ 
+	        StdDraw.clear();
+	        StdDraw.show();
+	        maze.draw();
+	        maze.clear();
+	        maze.generateBonus();
+	        maze.generateTrap();
+	        maze.hasBonusOrTraps = true;
+	        maze.solve(0);
+	        System.out.print(maze.getPassos());
+	        System.out.print(",");
+
+	        StdDraw.clear();
+	        StdDraw.show();
+	        maze.draw();
+	        maze.clear();
+	        maze.generateBonus();
+	        maze.generateTrap();
+	        maze.solve(1);
+	        System.out.println(maze.getPassos());
+	        
+	        StdDraw.clear();
+	        StdDraw.show();
+        }
     }
 
 }
